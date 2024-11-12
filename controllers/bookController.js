@@ -7,12 +7,25 @@ exports.createBook = async (req, res) => {
 
 // Get a book
 exports.getBook = async (req, res) => {
-  res.status(501).json({ message: 'Not implemented' });
+  try {
+    const book = await Book.findById(req.params.id);
+    if (!book) {
+      return res.status(404).json({ message: 'Book not found' });
+    }
+    res.json(book);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // Get all books
 exports.getAllBooks = async (req, res) => {
-    res.status(501).json({ message: 'Not implemented' });
+  try {
+    const books = await Book.find();
+    res.json(books);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // Update a book
